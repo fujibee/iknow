@@ -60,7 +60,7 @@ spec = Gem::Specification.new do |s|
 	#s.autorequire       = ""
 	s.test_files        = Dir["test/*_test.rb"]
 
-	s.add_dependency('json')
+	s.add_dependency('json-jruby')
 	s.add_dependency('oauth')
   # s.required_ruby_version = '>= 1.8.6'
 
