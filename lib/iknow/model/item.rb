@@ -4,7 +4,7 @@ class Iknow::Item < Iknow::Base
   attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
   attr_reader *READONLY_ATTRIBUTES
 
-  class Response
+  class Response < Iknow::Base
     ATTRIBUTES = [:text, :text_with_character, :type, :language]
     READONLY_ATTRIBUTES = [:type]
     attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
@@ -17,7 +17,7 @@ class Iknow::Item < Iknow::Base
     end
   end
 
-  class Cue
+  class Cue < Iknow::Base
     ATTRIBUTES = [:text, :sound, :part_of_speech, :language]
     READONLY_ATTRIBUTES = [:sound]
     attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
@@ -28,6 +28,7 @@ class Iknow::Item < Iknow::Base
       @sound          = params[:sound]
       @part_of_speech = params[:part_of_speech]
       @language       = params[:language]
+      @transliterations = self.deserialize(params[:transliterations], :as => Iknow::Transliteration)
     end
   end
 

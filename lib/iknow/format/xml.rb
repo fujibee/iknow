@@ -26,6 +26,7 @@ class Iknow::Format::Xml < Iknow::Format::Base
       return arr
     else
       hash = {}
+      hash[parent.name] = parent.text unless parent.elements.size > 0
       parent.elements.each do |c|
         hash[c.name] = c.elements.size > 0 ? extract_xml_to_hash(c) : c.text
       end

@@ -90,7 +90,6 @@ class Iknow::RestClient::Base
         raise RESTError.new(:code => hash['error']['code'], :message => hash['error']['message'])
       end
     end
-    p hash
     hash
   end
 
