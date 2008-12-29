@@ -7,11 +7,11 @@ require 'uri'
 
 require 'rubygems'
 require 'json'
-require 'rexml/document'
 
 require 'ext/hash'
 require 'iknow/core'
 require 'iknow/rest_client'
 require 'iknow/model'
+require 'iknow/format'
 
 Iknow::Config.init

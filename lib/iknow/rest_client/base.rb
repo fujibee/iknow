@@ -40,6 +40,8 @@ class Iknow::RestClient::Base
 
   def self.config; Iknow::Config end
 
+  def self.format; Iknow::Format::Base.create_format(self.config.format) end
+
   def self.iknow_auth(iknow_auth)
     if iknow_auth.is_a?(Iknow::Auth)
       iknow_auth
@@ -62,7 +64,7 @@ class Iknow::RestClient::Base
     when :json
       handle_json_response(response.body)
     when :xml
-      handle_xml_response(response.body)
+      self.format.handle_response(response.body)
     when :nothing
       # success => nothing / failure => json error
       begin
@@ -92,43 +94,10 @@ class Iknow::RestClient::Base
     hash
   end
 
-  def self.handle_xml_response(xml_response)
-    doc = REXML::Document.new(xml_response)
-    hash = []
-    doc.root.elements.each do |e| # TODO need to fetch first significant element
-      hash = extract_xml_to_hash(e)
-    end
-    hash
-  end
-
-  def self.extract_xml_to_hash(parent)
-    if has_children_same_element_name? parent
-      arr = []
-      parent.elements.each do |c|
-        arr << extract_xml_to_hash(c) 
-      end
-      return arr
-    else
-      hash = {}
-      parent.elements.each do |c|
-        hash[c.name] = c.elements.size > 0 ? extract_xml_to_hash(c) : c.text
-      end
-      parent.attributes.each do |name, value|
-        hash[name] = value
-      end
-      return hash
-    end
-  end
-   
-  def self.has_children_same_element_name?(parent)
-    parent.name.reverse.slice(0, 1) == 's' # last letter
-  end
-
   def self.http_header
     @@http_header ||= {
       'User-Agent' => "#{self.config.application_name} v#{Iknow::Version.to_version} [#{self.config.user_agent}]",
-      #'Accept'     => 'text/x-json',
-      'Accept'     => 'text/xml',
+      'Accept'     => self.format.mime_type,
       'X-iKnow-Gem-Client'         => self.config.application_name,
       'X-iKnow-Gem-Client-Version' => self.config.application_version,
       'X-iKnow-Gem-Client-URL'     => self.config.application_url,
@@ -168,8 +137,7 @@ class Iknow::RestClient::Base
       params.merge!(:api_key => self.config.api_key) unless self.config.api_key == ''
       path = (params.size > 0) ? "#{path}?#{params.to_http_str}" : path
       get_req = Net::HTTP::Get.new(path, http_header)
-#      [get_req, :json]
-      [get_req, :xml]
+      [get_req, self.format.to_sym]
     end
   end
 
