@@ -2,7 +2,7 @@ require 'singleton'
 
 class Iknow::Config
   include Singleton
-  ATTRIBUTES = [ :protocol, :host, :port, :api_protocol, :api_host, :api_port, :api_key, :timeout,
+  ATTRIBUTES = [ :protocol, :format, :host, :port, :api_protocol, :api_host, :api_port, :api_key, :timeout,
                  :oauth_consumer_key, :oauth_consumer_secret, :oauth_http_method, :oauth_scheme,
                  :user_agent, :application_name, :application_version, :application_url ]
   attr_accessor *ATTRIBUTES
@@ -10,6 +10,7 @@ class Iknow::Config
   def self.init(&block)
     conf = Iknow::Config.instance
     { :protocol              => 'http',
+      :format                => 'json',
       :host                  => 'www.iknow.co.jp',
       :port                  => 80,
       :api_protocol          => 'http',

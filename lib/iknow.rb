@@ -7,6 +7,7 @@ require 'uri'
 
 require 'rubygems'
 require 'json'
+require 'rexml/document'
 
 require 'ext/hash'
 require 'iknow/core'
