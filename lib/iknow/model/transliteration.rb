@@ -1,5 +1,5 @@
 class Iknow::Transliteration < Iknow::Base
-  ATTRIBUTES = [:text, :type]
+  ATTRIBUTES = [:transliteration, :type]
   READONLY_ATTRIBUTES = []
   attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
   attr_reader *READONLY_ATTRIBUTES

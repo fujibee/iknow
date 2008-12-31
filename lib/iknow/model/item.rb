@@ -18,7 +18,7 @@ class Iknow::Item < Iknow::Base
   end
 
   class Cue < Iknow::Base
-    ATTRIBUTES = [:text, :sound, :part_of_speech, :language]
+    ATTRIBUTES = [:text, :sound, :part_of_speech, :language, :transliterations]
     READONLY_ATTRIBUTES = [:sound]
     attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
     attr_reader *READONLY_ATTRIBUTES
