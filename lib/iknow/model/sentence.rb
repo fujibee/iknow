@@ -36,7 +36,7 @@ class Iknow::Sentence < Iknow::Base
     @square_image = params[:square_image]
     @text     = params[:text]
     @language = params[:language]
-    @transliterations = params[:transliterations]
+    @transliterations = self.deserialize(params[:transliterations], :as => Iknow::Transliteration)
     @translations = self.deserialize(params[:translations], :as => Iknow::Sentence)
   end
 
