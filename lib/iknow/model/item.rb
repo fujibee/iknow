@@ -1,5 +1,5 @@
 class Iknow::Item < Iknow::Base
-  ATTRIBUTES = [:sentences, :responses, :cue, :id, :list]
+  ATTRIBUTES = [:sentences, :responses, :cue, :id, :list, :creator]
   READONLY_ATTRIBUTES = [:sentences, :responses, :cue, :id]
   attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
   attr_reader *READONLY_ATTRIBUTES
@@ -63,6 +63,7 @@ class Iknow::Item < Iknow::Base
     params[:responses] = [params[:response]] if params[:response]
     @id        = params[:id].to_i
     @list      = params[:list]
+    @creator   = params[:creator]
     @cue       = self.deserialize(params[:cue], :as => Iknow::Item::Cue)
     @responses = self.deserialize(params[:responses], :as => Iknow::Item::Response)
     @sentences = self.deserialize(params[:sentences], :as => Iknow::Sentence)
