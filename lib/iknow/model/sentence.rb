@@ -1,5 +1,5 @@
 class Iknow::Sentence < Iknow::Base
-  ATTRIBUTES = [:sound, :image, :square_image, :text, :language, :id, :transliterations, :translations, :item, :list]
+  ATTRIBUTES = [:sound, :image, :square_image, :text, :language, :id, :transliterations, :translations, :item, :list, :creator, :contributor, :source]
   READONLY_ATTRIBUTES = [:id]
   attr_accessor *(ATTRIBUTES - READONLY_ATTRIBUTES)
   attr_reader *READONLY_ATTRIBUTES
@@ -38,6 +38,9 @@ class Iknow::Sentence < Iknow::Base
     @language = params[:language]
     @transliterations = self.deserialize(params[:transliterations], :as => Iknow::Transliteration)
     @translations = self.deserialize(params[:translations], :as => Iknow::Sentence)
+    @creator = params[:creator]
+    @contributor = params[:contributor]
+    @source = params[:source]
   end
 
   def save(iknow_auth)
